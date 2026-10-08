@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -36,7 +35,7 @@ const Index = () => {
           {/* Background Pattern Image */}
           <div className="absolute inset-0 z-0 opacity-10">
             <img
-              src="/images/heroback.jpeg"
+              src={`${import.meta.env.BASE_URL}images/heroback.jpeg`}
               alt="Fashion pattern background"
               className="w-full h-full object-cover"
             />
@@ -59,10 +58,10 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="md:w-1/2 relative">
-              <div className="relative rounded-lg overflow-hidden aspect-[4/3] md:aspect-square bg-white/80 shadow-xl">
+            <div className="w-full md:w-1/2 min-w-0 relative">
+              <div className="relative w-full rounded-lg overflow-hidden aspect-[4/3] md:aspect-square bg-white/80 shadow-xl">
                 <img
-                  src="/images/heroabt.jpeg"
+                  src={`${import.meta.env.BASE_URL}images/heroabt.jpeg`}
                   alt="Fashion model wearing printed t-shirt"
                   className="w-full h-full object-cover"
                 />
