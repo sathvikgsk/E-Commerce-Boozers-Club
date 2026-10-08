@@ -8,6 +8,7 @@ export interface Product {
   image: string;
   description?: string;
   sizes: string[];
+  colors: string[];
   additionalImages?: string[];
 }
 
@@ -15,13 +16,14 @@ export type CartItem = {
   product: Product;
   quantity: number;
   size: string;
+  color: string;
 };
 
 type CartContextType = {
   items: CartItem[];
-  addToCart: (product: Product, quantity: number, size: string) => void;
-  removeFromCart: (itemId: string) => void;
-  updateQuantity: (itemId: string, quantity: number) => void;
+  addToCart: (product: Product, quantity: number, size: string, color: string) => void;
+  removeFromCart: (itemId: string, size: string, color: string) => void;
+  updateQuantity: (itemId: string, size: string, color: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
@@ -37,7 +39,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   React.useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
-      setItems(JSON.parse(savedCart));
+      const savedItems = JSON.parse(savedCart) as Array<Omit<CartItem, "color"> & { color?: string }>;
+      setItems(savedItems.map(item => ({
+        ...item,
+        color: item.color ?? item.product.colors?.[0] ?? "",
+      })));
     }
   }, []);
 
@@ -47,10 +53,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setTotalPrice(items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0));
   }, [items]);
 
-  const addToCart = (product: Product, quantity: number, size: string) => {
+  const addToCart = (product: Product, quantity: number, size: string, color: string) => {
     setItems(prevItems => {
       const existingItemIndex = prevItems.findIndex(
-        item => item.product.id === product.id && item.size === size
+        item => item.product.id === product.id && item.size === size && item.color === color
       );
 
       if (existingItemIndex > -1) {
@@ -58,19 +64,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updatedItems[existingItemIndex].quantity += quantity;
         return updatedItems;
       } else {
-        return [...prevItems, { product, quantity, size }];
+        return [...prevItems, { product, quantity, size, color }];
       }
     });
   };
 
-  const removeFromCart = (itemId: string) => {
-    setItems(prevItems => prevItems.filter(item => item.product.id !== itemId));
+  const removeFromCart = (itemId: string, size: string, color: string) => {
+    setItems(prevItems => prevItems.filter(
+      item => item.product.id !== itemId || item.size !== size || item.color !== color
+    ));
   };
 
-  const updateQuantity = (itemId: string, quantity: number) => {
+  const updateQuantity = (itemId: string, size: string, color: string, quantity: number) => {
     setItems(prevItems =>
       prevItems.map(item =>
-        item.product.id === itemId
+        item.product.id === itemId && item.size === size && item.color === color
           ? { ...item, quantity: Math.max(1, quantity) }
           : item
       )

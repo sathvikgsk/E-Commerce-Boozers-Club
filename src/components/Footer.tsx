@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, whatsapp, Mail } from "lucide-react";
+import { getWhatsAppLink, WHATSAPP_DISPLAY_NUMBER } from "@/lib/whatsapp";
 
 const Footer = () => {
   return (
@@ -25,7 +26,7 @@ const Footer = () => {
                 <Instagram className="h-5 w-5" />
               </a>
               <a 
-                href="https://wa.me/918985909600"
+                href={getWhatsAppLink()}
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="p-2 rounded-full hover:bg-secondary transition"
@@ -102,13 +103,13 @@ const Footer = () => {
             Email us at: <a href="mailto:boozersclub@yahoo.com" className="hover:text-brand-teal transition">boozersclub@yahoo.com</a>
           </p>
           <p className="text-sm text-muted-foreground">
-            WhatsApp: <a href="https://wa.me/918985909600" className="hover:text-brand-teal transition">+91 8985909600</a>
+            WhatsApp: <a href={getWhatsAppLink()} className="hover:text-brand-teal transition">{WHATSAPP_DISPLAY_NUMBER}</a>
           </p>
         </div>
         
         <div className="border-t border-border mt-8 pt-8 text-sm text-muted-foreground text-center">
           <p>&copy; GUNS DON'T NEED AGREEMENTS!</p>
-          <p>&copy; {new Date().getFullYear()} BOOZER'S CLUB. All rights reserved.</p>
+          <p>&copy; 2027 BOOZER'S CLUB. All rights reserved.</p>
         </div>
       </div>
     </footer>

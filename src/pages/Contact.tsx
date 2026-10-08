@@ -4,6 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { getWhatsAppLink, WHATSAPP_DISPLAY_NUMBER } from "@/lib/whatsapp";
 
 const Contact = () => {
   const faqs = [
@@ -64,12 +65,12 @@ const Contact = () => {
               <div className="flex items-center justify-center space-x-4">
                 <Phone className="h-6 w-6 text-brand-teal" />
                 <a
-                  href="https://wa.me/918985909600"
+                  href={getWhatsAppLink()}
                   className="text-lg hover:text-brand-teal transition uppercase tracking-wider"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  WhatsApp: 8985909600
+                  WhatsApp: {WHATSAPP_DISPLAY_NUMBER.replace("+91 ", "")}
                 </a>
               </div>
 

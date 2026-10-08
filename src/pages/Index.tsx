@@ -6,9 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-
-// Add WhatsApp number constant (same as in Cart.tsx)
-const WHATSAPP_NUMBER = "918985909600";
+import { getWhatsAppLink } from "@/lib/whatsapp";
 
 const Index = () => {
   // Use all products for both sections
@@ -25,7 +23,7 @@ const Index = () => {
       "Please help me with more information about custom orders."
     );
     
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
+    window.open(getWhatsAppLink(message), "_blank");
   };
 
   return (

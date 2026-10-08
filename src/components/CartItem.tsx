@@ -16,12 +16,12 @@ const CartItem = ({ item }: CartItemProps) => {
   const [isRemoving, setIsRemoving] = useState(false);
 
   const handleIncrement = () => {
-    updateQuantity(product.id, quantity + 1);
+    updateQuantity(product.id, size, color, quantity + 1);
   };
 
   const handleDecrement = () => {
     if (quantity > 1) {
-      updateQuantity(product.id, quantity - 1);
+      updateQuantity(product.id, size, color, quantity - 1);
     }
   };
 
@@ -29,7 +29,7 @@ const CartItem = ({ item }: CartItemProps) => {
     setIsRemoving(true);
     // Delay removal for animation
     setTimeout(() => {
-      removeFromCart(product.id);
+      removeFromCart(product.id, size, color);
     }, 300);
   };
 

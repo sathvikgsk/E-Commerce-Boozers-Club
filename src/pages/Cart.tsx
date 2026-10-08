@@ -6,11 +6,9 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { formatIndianRupees } from "@/lib/formatters";
+import { getWhatsAppLink } from "@/lib/whatsapp";
 import CustomerInfoForm, { CustomerInfo } from "@/components/CustomerInfoForm";
 import React, { useState } from "react";
-
-// Update WhatsApp number to the actual number in international format (91 + number)
-const WHATSAPP_NUMBER = "918985909600";
 
 const Cart = () => {
   const { items, totalItems, totalPrice, clearCart } = useCart();
@@ -43,12 +41,11 @@ const Cart = () => {
     message += `\nShipping: ${shippingCost === 0 ? "Free" : formatIndianRupees(shippingCost)}`;
     message += `\nTotal: ${formatIndianRupees(totalWithShipping)}`;
     message += `\n\nPlease confirm my order.`;
-    return encodeURIComponent(message);
+    return message;
   };
 
   const handleWhatsAppOrder = (customerInfo: CustomerInfo) => {
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${getWhatsAppMessage(customerInfo)}`;
-    window.open(url, "_blank");
+    window.open(getWhatsAppLink(getWhatsAppMessage(customerInfo)), "_blank");
   };
 
   const handleCustomerInfoSubmit = (data: CustomerInfo) => {
